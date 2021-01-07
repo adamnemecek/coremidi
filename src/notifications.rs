@@ -61,19 +61,19 @@ pub enum Notification {
 }
 
 impl Notification {
-    pub fn from(notification: &MIDINotification) -> Result<Notification, i32> {
+    pub fn from(notification: &MIDINotification) -> Result<Self, i32> {
         match notification.messageID as ::std::os::raw::c_uint {
-            kMIDIMsgSetupChanged => Ok(Notification::SetupChanged),
+            kMIDIMsgSetupChanged => Ok(Self::SetupChanged),
             kMIDIMsgObjectAdded | kMIDIMsgObjectRemoved => Self::from_object_added_removed(notification),
             kMIDIMsgPropertyChanged => Self::from_property_changed(notification),
-            kMIDIMsgThruConnectionsChanged => Ok(Notification::ThruConnectionsChanged),
-            kMIDIMsgSerialPortOwnerChanged => Ok(Notification::SerialPortOwnerChanged),
+            kMIDIMsgThruConnectionsChanged => Ok(Self::ThruConnectionsChanged),
+            kMIDIMsgSerialPortOwnerChanged => Ok(Self::SerialPortOwnerChanged),
             kMIDIMsgIOError => Self::from_io_error(notification),
             unknown => Err(unknown as i32)
         }
     }
 
-    fn from_object_added_removed(notification: &MIDINotification) -> Result<Notification, i32> {
+    fn from_object_added_removed(notification: &MIDINotification) -> Result<Self, i32> {
         let add_remove_notification = unsafe { &*(notification as *const _ as *const MIDIObjectAddRemoveNotification) };
         let parent_type = ObjectType::from(add_remove_notification.parentType);
         let child_type = ObjectType::from(add_remove_notification.childType);
@@ -85,8 +85,8 @@ impl Notification {
                 child_type: child_type.unwrap()
             };
             match notification.messageID as ::std::os::raw::c_uint {
-                kMIDIMsgObjectAdded => Ok(Notification::ObjectAdded(add_remove_info)),
-                kMIDIMsgObjectRemoved => Ok(Notification::ObjectRemoved(add_remove_info)),
+                kMIDIMsgObjectAdded => Ok(Self::ObjectAdded(add_remove_info)),
+                kMIDIMsgObjectRemoved => Ok(Self::ObjectRemoved(add_remove_info)),
                 _ => Err(0) // Never reached
             }
         }
@@ -107,20 +107,20 @@ impl Notification {
                     object_type,
                     property_name
                 };
-                Ok(Notification::PropertyChanged(property_changed_info))
+                Ok(Self::PropertyChanged(property_changed_info))
             },
             Err(_) => Err(notification.messageID as i32)
         }
 
     }
 
-    fn from_io_error(notification: &MIDINotification) -> Result<Notification, i32> {
+    fn from_io_error(notification: &MIDINotification) -> Result<Self, i32> {
         let io_error_notification = unsafe { &*(notification as *const _ as *const MIDIIOErrorNotification) };
         let io_error_info = IOErrorInfo {
             driver_device: Device { object: Object(io_error_notification.driverDevice) },
             error_code: io_error_notification.errorCode
         };
-        Ok(Notification::IOError(io_error_info))
+        Ok(Self::IOError(io_error_info))
     }
 }
 

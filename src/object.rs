@@ -37,17 +37,17 @@ pub enum ObjectType {
 }
 
 impl ObjectType {
-    pub fn from(value: i32) -> Result<ObjectType, i32> {
+    pub fn from(value: i32) -> Result<Self, i32> {
         match value {
-            kMIDIObjectType_Other => Ok(ObjectType::Other),
-            kMIDIObjectType_Device => Ok(ObjectType::Device),
-            kMIDIObjectType_Entity => Ok(ObjectType::Entity),
-            kMIDIObjectType_Source => Ok(ObjectType::Source),
-            kMIDIObjectType_Destination => Ok(ObjectType::Destination),
-            kMIDIObjectType_ExternalDevice => Ok(ObjectType::ExternalDevice),
-            kMIDIObjectType_ExternalEntity => Ok(ObjectType::ExternalEntity),
-            kMIDIObjectType_ExternalSource => Ok(ObjectType::ExternalSource),
-            kMIDIObjectType_ExternalDestination => Ok(ObjectType::ExternalDestination),
+            kMIDIObjectType_Other => Ok(Self::Other),
+            kMIDIObjectType_Device => Ok(Self::Device),
+            kMIDIObjectType_Entity => Ok(Self::Entity),
+            kMIDIObjectType_Source => Ok(Self::Source),
+            kMIDIObjectType_Destination => Ok(Self::Destination),
+            kMIDIObjectType_ExternalDevice => Ok(Self::ExternalDevice),
+            kMIDIObjectType_ExternalEntity => Ok(Self::ExternalEntity),
+            kMIDIObjectType_ExternalSource => Ok(Self::ExternalSource),
+            kMIDIObjectType_ExternalDestination => Ok(Self::ExternalDestination),
             unknown => Err(unknown)
         }
     }
