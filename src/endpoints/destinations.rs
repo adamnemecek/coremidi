@@ -1,5 +1,8 @@
 use coremidi_sys::{
-    ItemCount, MIDIEndpointDispose, MIDIGetDestination, MIDIGetNumberOfDestinations,
+    ItemCount,
+    MIDIEndpointDispose,
+    MIDIGetDestination,
+    MIDIGetNumberOfDestinations,
 };
 
 use std::ops::Deref;

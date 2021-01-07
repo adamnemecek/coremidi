@@ -1,7 +1,11 @@
 use core_foundation_sys::base::OSStatus;
 
 use coremidi_sys::{
-    ItemCount, MIDIEndpointDispose, MIDIGetNumberOfSources, MIDIGetSource, MIDIReceived,
+    ItemCount,
+    MIDIEndpointDispose,
+    MIDIGetNumberOfSources,
+    MIDIGetSource,
+    MIDIReceived,
 };
 
 use std::ops::Deref;

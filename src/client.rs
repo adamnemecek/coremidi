@@ -1,18 +1,43 @@
 use core_foundation::{
-    base::{OSStatus, TCFType},
+    base::{
+        OSStatus,
+        TCFType,
+    },
     string::CFString,
 };
 
 use coremidi_sys::{
-    MIDIClientCreate, MIDIClientDispose, MIDIDestinationCreate, MIDIInputPortCreate,
-    MIDINotification, MIDIOutputPortCreate, MIDIPacketList, MIDISourceCreate,
+    MIDIClientCreate,
+    MIDIClientDispose,
+    MIDIDestinationCreate,
+    MIDIInputPortCreate,
+    MIDINotification,
+    MIDIOutputPortCreate,
+    MIDIPacketList,
+    MIDISourceCreate,
 };
 
-use std::{mem::MaybeUninit, ops::Deref, os::raw::c_void, panic::catch_unwind, ptr};
+use std::{
+    mem::MaybeUninit,
+    ops::Deref,
+    os::raw::c_void,
+    panic::catch_unwind,
+    ptr,
+};
 
 use {
-    notifications::Notification, result_from_status, BoxedCallback, Client, Endpoint, InputPort,
-    Object, OutputPort, PacketList, Port, VirtualDestination, VirtualSource,
+    notifications::Notification,
+    result_from_status,
+    BoxedCallback,
+    Client,
+    Endpoint,
+    InputPort,
+    Object,
+    OutputPort,
+    PacketList,
+    Port,
+    VirtualDestination,
+    VirtualSource,
 };
 
 impl Client {

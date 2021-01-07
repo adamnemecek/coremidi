@@ -1,9 +1,15 @@
 extern crate core_foundation;
 extern crate coremidi;
 
-use coremidi::{Client, Notification};
+use coremidi::{
+    Client,
+    Notification,
+};
 
-use core_foundation::runloop::{kCFRunLoopDefaultMode, CFRunLoopRunInMode};
+use core_foundation::runloop::{
+    kCFRunLoopDefaultMode,
+    CFRunLoopRunInMode,
+};
 
 fn main() {
     println!("Logging MIDI Client Notifications");

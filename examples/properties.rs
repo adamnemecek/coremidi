@@ -1,6 +1,12 @@
 extern crate coremidi;
 
-use coremidi::{Client, PacketList, Properties, PropertyGetter, PropertySetter};
+use coremidi::{
+    Client,
+    PacketList,
+    Properties,
+    PropertyGetter,
+    PropertySetter,
+};
 
 fn main() {
     let client = Client::new("Example Client").unwrap();

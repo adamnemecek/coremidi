@@ -1,10 +1,20 @@
-use coremidi_sys::{MIDIPacket, MIDIPacketNext, MIDITimeStamp};
+use coremidi_sys::{
+    MIDIPacket,
+    MIDIPacketNext,
+    MIDITimeStamp,
+};
 
 use std::fmt;
-use std::ops::{Deref, DerefMut};
+use std::ops::{
+    Deref,
+    DerefMut,
+};
 use std::slice;
 
-use {PacketList, PacketListInner};
+use {
+    PacketList,
+    PacketListInner,
+};
 
 pub type Timestamp = u64;
 
@@ -516,9 +526,15 @@ impl PacketBuffer {
 #[cfg(test)]
 mod tests {
     use super::{
-        PacketBufferStorage, INLINE_PACKET_BUFFER_SIZE, PACKET_HEADER_SIZE, PACKET_LIST_HEADER_SIZE,
+        PacketBufferStorage,
+        INLINE_PACKET_BUFFER_SIZE,
+        PACKET_HEADER_SIZE,
+        PACKET_LIST_HEADER_SIZE,
     };
-    use coremidi_sys::{MIDIPacketList, MIDITimeStamp};
+    use coremidi_sys::{
+        MIDIPacketList,
+        MIDITimeStamp,
+    };
     use std::mem;
     use Packet;
     use PacketBuffer;
@@ -709,7 +725,10 @@ mod tests {
     /// Compares the results of building a PacketList using our PacketBuffer API
     /// and the native API (MIDIPacketListAdd, etc).
     unsafe fn compare_packet_list(packets: Vec<(MIDITimeStamp, Vec<u8>)>) {
-        use coremidi_sys::{MIDIPacketListAdd, MIDIPacketListInit};
+        use coremidi_sys::{
+            MIDIPacketListAdd,
+            MIDIPacketListInit,
+        };
 
         // allocate a buffer on the stack for building the list using native methods
         const BUFFER_SIZE: usize = 65536; // maximum allowed size

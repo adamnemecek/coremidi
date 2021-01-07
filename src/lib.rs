@@ -42,7 +42,13 @@ extern crate coremidi_sys;
 
 use core_foundation_sys::base::OSStatus;
 
-use coremidi_sys::{MIDIFlushOutput, MIDIObjectRef, MIDIPacket, MIDIPacketList, MIDIRestart};
+use coremidi_sys::{
+    MIDIFlushOutput,
+    MIDIObjectRef,
+    MIDIPacket,
+    MIDIPacketList,
+    MIDIRestart,
+};
 
 /// A [MIDI Object](https://developer.apple.com/reference/coremidi/midiobjectref).
 ///
@@ -258,10 +264,23 @@ mod ports;
 mod properties;
 pub use endpoints::destinations::Destinations;
 pub use endpoints::sources::Sources;
-pub use notifications::{AddedRemovedInfo, IOErrorInfo, Notification, PropertyChangedInfo};
+pub use notifications::{
+    AddedRemovedInfo,
+    IOErrorInfo,
+    Notification,
+    PropertyChangedInfo,
+};
 pub use object::ObjectType;
-pub use packets::{Packet, PacketBuffer, PacketListIterator};
-pub use properties::{Properties, PropertyGetter, PropertySetter};
+pub use packets::{
+    Packet,
+    PacketBuffer,
+    PacketListIterator,
+};
+pub use properties::{
+    Properties,
+    PropertyGetter,
+    PropertySetter,
+};
 
 /// Unschedules previously-sent packets for all the endpoints.
 /// See [MIDIFlushOutput](https://developer.apple.com/reference/coremidi/1495312-midiflushoutput).

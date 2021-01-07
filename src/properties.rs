@@ -1,13 +1,26 @@
 use core_foundation::{
-    base::{CFGetRetainCount, CFIndex, CFTypeRef, OSStatus, TCFType},
-    string::{CFString, CFStringRef},
+    base::{
+        CFGetRetainCount,
+        CFIndex,
+        CFTypeRef,
+        OSStatus,
+        TCFType,
+    },
+    string::{
+        CFString,
+        CFStringRef,
+    },
 };
 
 use coremidi_sys::*;
 
 use std::mem::MaybeUninit;
 
-use {result_from_status, unit_result_from_status, Object};
+use {
+    result_from_status,
+    unit_result_from_status,
+    Object,
+};
 
 pub trait PropertyGetter<T> {
     fn value_from(&self, object: &Object) -> Result<T, OSStatus>;
@@ -402,7 +415,10 @@ impl Properties {
 mod tests {
     use super::*;
 
-    use {Client, VirtualDestination};
+    use {
+        Client,
+        VirtualDestination,
+    };
 
     const NAME_ORIG: &str = "A";
 

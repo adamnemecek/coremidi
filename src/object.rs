@@ -3,16 +3,27 @@
 use core_foundation_sys::base::OSStatus;
 
 use coremidi_sys::{
-    kMIDIObjectType_Destination, kMIDIObjectType_Device, kMIDIObjectType_Entity,
-    kMIDIObjectType_ExternalDestination, kMIDIObjectType_ExternalDevice,
-    kMIDIObjectType_ExternalEntity, kMIDIObjectType_ExternalSource, kMIDIObjectType_Other,
-    kMIDIObjectType_Source, SInt32,
+    kMIDIObjectType_Destination,
+    kMIDIObjectType_Device,
+    kMIDIObjectType_Entity,
+    kMIDIObjectType_ExternalDestination,
+    kMIDIObjectType_ExternalDevice,
+    kMIDIObjectType_ExternalEntity,
+    kMIDIObjectType_ExternalSource,
+    kMIDIObjectType_Other,
+    kMIDIObjectType_Source,
+    SInt32,
 };
 
 use std::fmt;
 
 use properties::{
-    BooleanProperty, IntegerProperty, Properties, PropertyGetter, PropertySetter, StringProperty,
+    BooleanProperty,
+    IntegerProperty,
+    Properties,
+    PropertyGetter,
+    PropertySetter,
+    StringProperty,
 };
 use Object;
 
@@ -120,9 +131,14 @@ mod tests {
     use object::ObjectType;
 
     use coremidi_sys::{
-        kMIDIObjectType_Destination, kMIDIObjectType_Device, kMIDIObjectType_Entity,
-        kMIDIObjectType_ExternalDestination, kMIDIObjectType_ExternalDevice,
-        kMIDIObjectType_ExternalEntity, kMIDIObjectType_ExternalSource, kMIDIObjectType_Other,
+        kMIDIObjectType_Destination,
+        kMIDIObjectType_Device,
+        kMIDIObjectType_Entity,
+        kMIDIObjectType_ExternalDestination,
+        kMIDIObjectType_ExternalDevice,
+        kMIDIObjectType_ExternalEntity,
+        kMIDIObjectType_ExternalSource,
+        kMIDIObjectType_Other,
         kMIDIObjectType_Source,
     };
 

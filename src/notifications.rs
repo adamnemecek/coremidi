@@ -1,12 +1,25 @@
 #![allow(non_upper_case_globals)]
 
-use core_foundation::base::{OSStatus, TCFType};
-use core_foundation::string::{CFString, CFStringRef};
+use core_foundation::base::{
+    OSStatus,
+    TCFType,
+};
+use core_foundation::string::{
+    CFString,
+    CFStringRef,
+};
 
 use coremidi_sys::{
-    kMIDIMsgIOError, kMIDIMsgObjectAdded, kMIDIMsgObjectRemoved, kMIDIMsgPropertyChanged,
-    kMIDIMsgSerialPortOwnerChanged, kMIDIMsgSetupChanged, kMIDIMsgThruConnectionsChanged,
-    MIDIIOErrorNotification, MIDINotification, MIDIObjectAddRemoveNotification,
+    kMIDIMsgIOError,
+    kMIDIMsgObjectAdded,
+    kMIDIMsgObjectRemoved,
+    kMIDIMsgPropertyChanged,
+    kMIDIMsgSerialPortOwnerChanged,
+    kMIDIMsgSetupChanged,
+    kMIDIMsgThruConnectionsChanged,
+    MIDIIOErrorNotification,
+    MIDINotification,
+    MIDIObjectAddRemoveNotification,
     MIDIObjectPropertyChangeNotification,
 };
 
@@ -123,18 +136,36 @@ impl Notification {
 #[cfg(test)]
 mod tests {
 
-    use core_foundation::base::{OSStatus, TCFType};
+    use core_foundation::base::{
+        OSStatus,
+        TCFType,
+    };
     use core_foundation::string::CFString;
 
     use coremidi_sys::{
-        kMIDIMsgIOError, kMIDIMsgObjectAdded, kMIDIMsgObjectRemoved, kMIDIMsgPropertyChanged,
-        kMIDIMsgSerialPortOwnerChanged, kMIDIMsgSetupChanged, kMIDIMsgThruConnectionsChanged,
-        kMIDIObjectType_Device, kMIDIObjectType_Other, MIDIIOErrorNotification, MIDINotification,
-        MIDINotificationMessageID, MIDIObjectAddRemoveNotification,
-        MIDIObjectPropertyChangeNotification, MIDIObjectRef,
+        kMIDIMsgIOError,
+        kMIDIMsgObjectAdded,
+        kMIDIMsgObjectRemoved,
+        kMIDIMsgPropertyChanged,
+        kMIDIMsgSerialPortOwnerChanged,
+        kMIDIMsgSetupChanged,
+        kMIDIMsgThruConnectionsChanged,
+        kMIDIObjectType_Device,
+        kMIDIObjectType_Other,
+        MIDIIOErrorNotification,
+        MIDINotification,
+        MIDINotificationMessageID,
+        MIDIObjectAddRemoveNotification,
+        MIDIObjectPropertyChangeNotification,
+        MIDIObjectRef,
     };
 
-    use notifications::{AddedRemovedInfo, IOErrorInfo, Notification, PropertyChangedInfo};
+    use notifications::{
+        AddedRemovedInfo,
+        IOErrorInfo,
+        Notification,
+        PropertyChangedInfo,
+    };
     use object::ObjectType;
     use Device;
     use Object;
