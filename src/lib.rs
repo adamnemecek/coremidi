@@ -36,15 +36,13 @@ For handling low level MIDI data you may look into:
 
 */
 
-extern crate core_foundation_sys;
 extern crate core_foundation;
+extern crate core_foundation_sys;
 extern crate coremidi_sys;
 
 use core_foundation_sys::base::OSStatus;
 
-use coremidi_sys::{
-    MIDIObjectRef, MIDIFlushOutput, MIDIRestart, MIDIPacket, MIDIPacketList
-};
+use coremidi_sys::{MIDIFlushOutput, MIDIObjectRef, MIDIPacket, MIDIPacketList, MIDIRestart};
 
 /// A [MIDI Object](https://developer.apple.com/reference/coremidi/midiobjectref).
 ///
@@ -111,7 +109,9 @@ impl<T> Drop for BoxedCallback<T> {
 /// Ports can't be instantiated directly, but through a client.
 ///
 #[derive(Debug)]
-pub struct Port { object: Object }
+pub struct Port {
+    object: Object,
+}
 
 /// An output [MIDI port](https://developer.apple.com/reference/coremidi/midiportref) owned by a client.
 ///
@@ -125,7 +125,9 @@ pub struct Port { object: Object }
 /// output_port.send(&destination, &packets).unwrap();
 /// ```
 #[derive(Debug)]
-pub struct OutputPort { port: Port }
+pub struct OutputPort {
+    port: Port,
+}
 
 /// An input [MIDI port](https://developer.apple.com/reference/coremidi/midiportref) owned by a client.
 ///
@@ -150,7 +152,9 @@ pub struct InputPort {
 /// You don't need to create an endpoint directly, instead you can create system sources and sources or virtual ones from a client.
 ///
 #[derive(Debug)]
-pub struct Endpoint { object: Object }
+pub struct Endpoint {
+    object: Object,
+}
 
 /// A [MIDI source](https://developer.apple.com/reference/coremidi/midiendpointref) owned by an entity.
 ///
@@ -162,7 +166,9 @@ pub struct Endpoint { object: Object }
 /// ```
 ///
 #[derive(Debug)]
-pub struct Destination { endpoint: Endpoint }
+pub struct Destination {
+    endpoint: Endpoint,
+}
 
 /// A [MIDI source](https://developer.apple.com/reference/coremidi/midiendpointref) owned by an entity.
 ///
@@ -174,7 +180,9 @@ pub struct Destination { endpoint: Endpoint }
 /// ```
 ///
 #[derive(Debug)]
-pub struct Source { endpoint: Endpoint }
+pub struct Source {
+    endpoint: Endpoint,
+}
 
 /// A [MIDI virtual source](https://developer.apple.com/reference/coremidi/1495212-midisourcecreate) owned by a client.
 ///
@@ -186,7 +194,9 @@ pub struct Source { endpoint: Endpoint }
 /// ```
 ///
 #[derive(Debug)]
-pub struct VirtualSource { endpoint: Endpoint }
+pub struct VirtualSource {
+    endpoint: Endpoint,
+}
 
 /// A [MIDI virtual destination](https://developer.apple.com/reference/coremidi/1495347-mididestinationcreate) owned by a client.
 ///
@@ -208,9 +218,10 @@ pub struct VirtualDestination {
 ///
 /// A MIDI device or external device, containing entities.
 ///
-#[derive(Debug)]
-#[derive(PartialEq)]
-pub struct Device { object: Object }
+#[derive(Debug, PartialEq)]
+pub struct Device {
+    object: Object,
+}
 
 /// A [list of MIDI events](https://developer.apple.com/reference/coremidi/midipacketlist) being received from, or being sent to, one endpoint.
 ///
@@ -220,13 +231,13 @@ pub struct PacketList {
     //       pointing to valid instances of MIDIPacketList.
     //       This type must NOT implement `Copy`!
     inner: PacketListInner,
-    _do_not_construct: packets::alignment::Marker
+    _do_not_construct: packets::alignment::Marker,
 }
 
 #[repr(packed)]
 struct PacketListInner {
     num_packets: u32,
-    data: [MIDIPacket; 0]
+    data: [MIDIPacket; 0],
 }
 
 impl PacketList {
@@ -237,25 +248,20 @@ impl PacketList {
     }
 }
 
-mod object;
-mod devices;
 mod client;
-mod ports;
-mod packets;
-mod properties;
+mod devices;
 mod endpoints;
 mod notifications;
+mod object;
+mod packets;
+mod ports;
+mod properties;
 pub use endpoints::destinations::Destinations;
 pub use endpoints::sources::Sources;
-pub use packets::{PacketListIterator, Packet, PacketBuffer};
-pub use properties::{Properties, PropertyGetter, PropertySetter};
-pub use notifications::{
-    AddedRemovedInfo,
-    IOErrorInfo,
-    Notification,
-    PropertyChangedInfo,
-};
+pub use notifications::{AddedRemovedInfo, IOErrorInfo, Notification, PropertyChangedInfo};
 pub use object::ObjectType;
+pub use packets::{Packet, PacketBuffer, PacketListIterator};
+pub use properties::{Properties, PropertyGetter, PropertySetter};
 
 /// Unschedules previously-sent packets for all the endpoints.
 /// See [MIDIFlushOutput](https://developer.apple.com/reference/coremidi/1495312-midiflushoutput).

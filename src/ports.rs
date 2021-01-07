@@ -1,19 +1,17 @@
 use core_foundation::base::OSStatus;
 
-use coremidi_sys::{
-    MIDIPortConnectSource, MIDIPortDisconnectSource, MIDIPortDispose, MIDISend
-};
+use coremidi_sys::{MIDIPortConnectSource, MIDIPortDisconnectSource, MIDIPortDispose, MIDISend};
 
-use std::ptr;
 use std::ops::Deref;
+use std::ptr;
 
-use Object;
-use Port;
-use OutputPort;
-use InputPort;
 use Destination;
-use Source;
+use InputPort;
+use Object;
+use OutputPort;
 use PacketList;
+use Port;
+use Source;
 
 impl Deref for Port {
     type Target = Object;
@@ -33,13 +31,23 @@ impl OutputPort {
     /// Send a list of packets to a destination.
     /// See [MIDISend](https://developer.apple.com/reference/coremidi/1495289-midisend).
     ///
-    pub fn send(&self, destination: &Destination, packet_list: &PacketList) -> Result<(), OSStatus> {
-        let status = unsafe { MIDISend(
-            self.port.object.0,
-            destination.endpoint.object.0,
-            packet_list.as_ptr())
+    pub fn send(
+        &self,
+        destination: &Destination,
+        packet_list: &PacketList,
+    ) -> Result<(), OSStatus> {
+        let status = unsafe {
+            MIDISend(
+                self.port.object.0,
+                destination.endpoint.object.0,
+                packet_list.as_ptr(),
+            )
         };
-        if status == 0 { Ok(()) } else { Err(status) }
+        if status == 0 {
+            Ok(())
+        } else {
+            Err(status)
+        }
     }
 }
 
@@ -52,22 +60,23 @@ impl Deref for OutputPort {
 }
 
 impl InputPort {
-
     pub fn connect_source(&self, source: &Source) -> Result<(), OSStatus> {
-        let status = unsafe { MIDIPortConnectSource(
-            self.object.0,
-            source.object.0,
-            ptr::null_mut())
-        };
-        if status == 0 { Ok(()) } else { Err(status) }
+        let status =
+            unsafe { MIDIPortConnectSource(self.object.0, source.object.0, ptr::null_mut()) };
+        if status == 0 {
+            Ok(())
+        } else {
+            Err(status)
+        }
     }
 
     pub fn disconnect_source(&self, source: &Source) -> Result<(), OSStatus> {
-        let status = unsafe { MIDIPortDisconnectSource(
-            self.object.0,
-            source.object.0)
-        };
-        if status == 0 { Ok(()) } else { Err(status) }
+        let status = unsafe { MIDIPortDisconnectSource(self.object.0, source.object.0) };
+        if status == 0 {
+            Ok(())
+        } else {
+            Err(status)
+        }
     }
 }
 

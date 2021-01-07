@@ -18,5 +18,7 @@ fn main() {
 }
 
 fn get_display_name(endpoint: &coremidi::Endpoint) -> String {
-    endpoint.display_name().unwrap_or("[Unknown Display Name]".to_string())
+    endpoint
+        .display_name()
+        .unwrap_or("[Unknown Display Name]".to_string())
 }

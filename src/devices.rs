@@ -1,5 +1,5 @@
-use Object;
 use Device;
+use Object;
 
 use std::ops::Deref;
 

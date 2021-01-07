@@ -4,8 +4,8 @@ use coremidi_sys::MIDIFlushOutput;
 
 use std::ops::Deref;
 
-use Object;
 use Endpoint;
+use Object;
 
 impl Endpoint {
     /// Unschedules previously-sent packets.
@@ -13,7 +13,11 @@ impl Endpoint {
     ///
     pub fn flush(&self) -> Result<(), OSStatus> {
         let status = unsafe { MIDIFlushOutput(self.object.0) };
-        if status == 0 { Ok(()) } else { Err(status) }
+        if status == 0 {
+            Ok(())
+        } else {
+            Err(status)
+        }
     }
 }
 

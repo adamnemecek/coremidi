@@ -1,16 +1,16 @@
 use core_foundation_sys::base::OSStatus;
 
 use coremidi_sys::{
-    MIDIGetNumberOfSources, MIDIGetSource, MIDIReceived, MIDIEndpointDispose, ItemCount
+    ItemCount, MIDIEndpointDispose, MIDIGetNumberOfSources, MIDIGetSource, MIDIReceived,
 };
 
 use std::ops::Deref;
 
-use Object;
 use Endpoint;
+use Object;
+use PacketList;
 use Source;
 use VirtualSource;
-use PacketList;
 
 impl Source {
     /// Create a source endpoint from its index.
@@ -20,7 +20,11 @@ impl Source {
         let endpoint_ref = unsafe { MIDIGetSource(index as ItemCount) };
         match endpoint_ref {
             0 => None,
-            _ => Some(Source { endpoint: Endpoint { object: Object(endpoint_ref) } })
+            _ => Some(Source {
+                endpoint: Endpoint {
+                    object: Object(endpoint_ref),
+                },
+            }),
         }
     }
 }
@@ -65,13 +69,16 @@ impl IntoIterator for Sources {
     type IntoIter = SourcesIterator;
 
     fn into_iter(self) -> Self::IntoIter {
-        SourcesIterator { index: 0, count: Self::count() }
+        SourcesIterator {
+            index: 0,
+            count: Self::count(),
+        }
     }
 }
 
 pub struct SourcesIterator {
     index: usize,
-    count: usize
+    count: usize,
 }
 
 impl Iterator for SourcesIterator {
@@ -82,8 +89,7 @@ impl Iterator for SourcesIterator {
             let source = Source::from_index(self.index);
             self.index += 1;
             source
-        }
-        else {
+        } else {
             None
         }
     }
@@ -94,11 +100,12 @@ impl VirtualSource {
     /// See [MIDIReceived](https://developer.apple.com/reference/coremidi/1495276-midireceived)
     ///
     pub fn received(&self, packet_list: &PacketList) -> Result<(), OSStatus> {
-        let status = unsafe { MIDIReceived(
-            self.endpoint.object.0,
-            packet_list.as_ptr())
-        };
-        if status == 0 { Ok(()) } else { Err(status) }
+        let status = unsafe { MIDIReceived(self.endpoint.object.0, packet_list.as_ptr()) };
+        if status == 0 {
+            Ok(())
+        } else {
+            Err(status)
+        }
     }
 }
 

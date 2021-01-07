@@ -1,12 +1,12 @@
 use coremidi_sys::{
-    MIDIGetNumberOfDestinations, MIDIGetDestination, MIDIEndpointDispose, ItemCount
+    ItemCount, MIDIEndpointDispose, MIDIGetDestination, MIDIGetNumberOfDestinations,
 };
 
 use std::ops::Deref;
 
-use Object;
-use Endpoint;
 use Destination;
+use Endpoint;
+use Object;
 use VirtualDestination;
 
 impl Destination {
@@ -17,7 +17,11 @@ impl Destination {
         let endpoint_ref = unsafe { MIDIGetDestination(index as ItemCount) };
         match endpoint_ref {
             0 => None,
-            _ => Some(Destination { endpoint: Endpoint { object: Object(endpoint_ref) } })
+            _ => Some(Destination {
+                endpoint: Endpoint {
+                    object: Object(endpoint_ref),
+                },
+            }),
         }
     }
 }
@@ -62,13 +66,16 @@ impl IntoIterator for Destinations {
     type IntoIter = DestinationsIterator;
 
     fn into_iter(self) -> Self::IntoIter {
-        DestinationsIterator { index: 0, count: Self::count() }
+        DestinationsIterator {
+            index: 0,
+            count: Self::count(),
+        }
     }
 }
 
 pub struct DestinationsIterator {
     index: usize,
-    count: usize
+    count: usize,
 }
 
 impl Iterator for DestinationsIterator {
@@ -79,16 +86,13 @@ impl Iterator for DestinationsIterator {
             let destination = Destination::from_index(self.index);
             self.index += 1;
             destination
-        }
-        else {
+        } else {
             None
         }
     }
 }
 
-impl VirtualDestination {
-
-}
+impl VirtualDestination {}
 
 impl Deref for VirtualDestination {
     type Target = Endpoint;

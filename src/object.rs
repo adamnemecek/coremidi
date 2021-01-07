@@ -3,25 +3,18 @@
 use core_foundation_sys::base::OSStatus;
 
 use coremidi_sys::{
-    SInt32,
-    kMIDIObjectType_Other,
-    kMIDIObjectType_Device,
-    kMIDIObjectType_Entity,
-    kMIDIObjectType_Source,
-    kMIDIObjectType_Destination,
-    kMIDIObjectType_ExternalDevice,
-    kMIDIObjectType_ExternalEntity,
-    kMIDIObjectType_ExternalSource,
-    kMIDIObjectType_ExternalDestination
+    kMIDIObjectType_Destination, kMIDIObjectType_Device, kMIDIObjectType_Entity,
+    kMIDIObjectType_ExternalDestination, kMIDIObjectType_ExternalDevice,
+    kMIDIObjectType_ExternalEntity, kMIDIObjectType_ExternalSource, kMIDIObjectType_Other,
+    kMIDIObjectType_Source, SInt32,
 };
 
 use std::fmt;
 
-use Object;
 use properties::{
-    PropertyGetter, PropertySetter, Properties,
-    StringProperty, IntegerProperty, BooleanProperty
+    BooleanProperty, IntegerProperty, Properties, PropertyGetter, PropertySetter, StringProperty,
 };
+use Object;
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq)]
 pub enum ObjectType {
@@ -33,7 +26,7 @@ pub enum ObjectType {
     ExternalDevice,
     ExternalEntity,
     ExternalSource,
-    ExternalDestination
+    ExternalDestination,
 }
 
 impl ObjectType {
@@ -48,7 +41,7 @@ impl ObjectType {
             kMIDIObjectType_ExternalEntity => Ok(Self::ExternalEntity),
             kMIDIObjectType_ExternalSource => Ok(Self::ExternalSource),
             kMIDIObjectType_ExternalDestination => Ok(Self::ExternalDestination),
-            unknown => Err(unknown)
+            unknown => Err(unknown),
         }
     }
 }
@@ -63,7 +56,10 @@ impl Object {
     /// Get the unique id for the object.
     ///
     pub fn unique_id(&self) -> Option<u32> {
-        Properties::unique_id().value_from(self).ok().map(|v: SInt32| v as u32)
+        Properties::unique_id()
+            .value_from(self)
+            .ok()
+            .map(|v: SInt32| v as u32)
     }
 
     /// Get the display name for the object.
@@ -124,28 +120,50 @@ mod tests {
     use object::ObjectType;
 
     use coremidi_sys::{
-        kMIDIObjectType_Other,
-        kMIDIObjectType_Device,
-        kMIDIObjectType_Entity,
+        kMIDIObjectType_Destination, kMIDIObjectType_Device, kMIDIObjectType_Entity,
+        kMIDIObjectType_ExternalDestination, kMIDIObjectType_ExternalDevice,
+        kMIDIObjectType_ExternalEntity, kMIDIObjectType_ExternalSource, kMIDIObjectType_Other,
         kMIDIObjectType_Source,
-        kMIDIObjectType_Destination,
-        kMIDIObjectType_ExternalDevice,
-        kMIDIObjectType_ExternalEntity,
-        kMIDIObjectType_ExternalSource,
-        kMIDIObjectType_ExternalDestination
     };
 
     #[test]
     fn objecttype_from() {
-        assert_eq!(ObjectType::from(kMIDIObjectType_Other), Ok(ObjectType::Other));
-        assert_eq!(ObjectType::from(kMIDIObjectType_Device), Ok(ObjectType::Device));
-        assert_eq!(ObjectType::from(kMIDIObjectType_Entity), Ok(ObjectType::Entity));
-        assert_eq!(ObjectType::from(kMIDIObjectType_Source), Ok(ObjectType::Source));
-        assert_eq!(ObjectType::from(kMIDIObjectType_Destination), Ok(ObjectType::Destination));
-        assert_eq!(ObjectType::from(kMIDIObjectType_ExternalDevice), Ok(ObjectType::ExternalDevice));
-        assert_eq!(ObjectType::from(kMIDIObjectType_ExternalEntity), Ok(ObjectType::ExternalEntity));
-        assert_eq!(ObjectType::from(kMIDIObjectType_ExternalSource), Ok(ObjectType::ExternalSource));
-        assert_eq!(ObjectType::from(kMIDIObjectType_ExternalDestination), Ok(ObjectType::ExternalDestination));
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_Other),
+            Ok(ObjectType::Other)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_Device),
+            Ok(ObjectType::Device)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_Entity),
+            Ok(ObjectType::Entity)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_Source),
+            Ok(ObjectType::Source)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_Destination),
+            Ok(ObjectType::Destination)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_ExternalDevice),
+            Ok(ObjectType::ExternalDevice)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_ExternalEntity),
+            Ok(ObjectType::ExternalEntity)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_ExternalSource),
+            Ok(ObjectType::ExternalSource)
+        );
+        assert_eq!(
+            ObjectType::from(kMIDIObjectType_ExternalDestination),
+            Ok(ObjectType::ExternalDestination)
+        );
     }
 
     #[test]

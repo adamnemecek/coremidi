@@ -20,15 +20,23 @@ fn main() {
 
     let mut input_line = String::new();
     println!("Press Enter to Finish");
-    std::io::stdin().read_line(&mut input_line).ok().expect("Failed to read line");
+    std::io::stdin()
+        .read_line(&mut input_line)
+        .ok()
+        .expect("Failed to read line");
 
     input_port.disconnect_source(&source).unwrap();
 }
 
 fn get_source_index() -> usize {
     let mut args_iter = env::args();
-    let tool_name = args_iter.next()
-        .and_then(|path| path.split(std::path::MAIN_SEPARATOR).last().map(|v| v.to_string()))
+    let tool_name = args_iter
+        .next()
+        .and_then(|path| {
+            path.split(std::path::MAIN_SEPARATOR)
+                .last()
+                .map(|v| v.to_string())
+        })
         .unwrap_or("receive".to_string());
 
     match args_iter.next() {
@@ -39,7 +47,7 @@ fn get_source_index() -> usize {
                     std::process::exit(-1);
                 }
                 index
-            },
+            }
             Err(_) => {
                 println!("Wrong source index: {}", arg);
                 std::process::exit(-1);
@@ -59,7 +67,7 @@ fn print_sources() {
     for (i, source) in coremidi::Sources.into_iter().enumerate() {
         match source.display_name() {
             Some(display_name) => println!("[{}] {}", i, display_name),
-            None => ()
+            None => (),
         }
     }
 }
