@@ -10,7 +10,7 @@ use coremidi_sys::{
     MIDIClientCreate,
     MIDIClientDispose,
     MIDIDestinationCreate,
-    MIDIInputPortCreate,
+    MIDIInputPortCreateWithBlock,
     MIDINotification,
     MIDIOutputPortCreate,
     MIDIPacketList,
@@ -130,15 +130,48 @@ impl Client {
         let port_name = CFString::new(name);
         let mut port_ref = MaybeUninit::uninit();
         let mut box_callback = BoxedCallback::new(callback);
+        // let status;
+        // let status = unsafe {
+        //     MIDIInputPortCreate(
+        //         self.object.0,
+        //         port_name.as_concrete_TypeRef(),
+        //         Some(Self::read_proc as extern "C" fn(_, _, _)),
+        //         box_callback.raw_ptr(),
+        //         port_ref.as_mut_ptr(),
+        //     )
+        // };
+        let mut block = block::ConcreteBlock::new(
+            move |packet: *const coremidi_sys::MIDIPacketList, _: *mut std::ffi::c_void| {
+                println!("callback");
+                // callback(packet.as_ref().unwrap());
+                // println!("input block");
+                // todo!();
+                // let i = MIDIPacketListIterator::new(unsafe { packet.as_ref().unwrap() });
+                // let p = MIDIPacket::new(0, &[1,2,3]);
+                // tx.send(p);
+                // println!("here");
+                // for e in i {
+                //     let packet = MIDIPacket::from(e);
+                //     let _ = tx.send(packet);
+                // }
+            },
+        )
+        .copy();
         let status = unsafe {
-            MIDIInputPortCreate(
+            coremidi_sys::MIDIInputPortCreateWithBlock(
                 self.object.0,
                 port_name.as_concrete_TypeRef(),
-                Some(Self::read_proc as extern "C" fn(_, _, _)),
-                box_callback.raw_ptr(),
                 port_ref.as_mut_ptr(),
+                // block_ref, // block,
+                std::mem::transmute(block),
             )
         };
+
+        // coremidi_sys::MIDIInputPortCreateWithBlock(
+        //     self.object.0,
+        //     port_name.as_concrete_TypeRef(),
+
+        // );
         result_from_status(status, || {
             let port_ref = unsafe { port_ref.assume_init() };
             InputPort {

@@ -73,6 +73,18 @@ impl Object {
             .map(|v: SInt32| v as u32)
     }
 
+    /// Get the manufacturer for the object.
+    ///
+    pub fn manufacturer(&self) -> Option<String> {
+        Properties::manufacturer().value_from(self).ok()
+    }
+
+    /// Get the offline state
+    ///
+    pub fn offline(&self) -> Result<bool, i32> {
+        Properties::offline().value_from(self)
+    }
+
     /// Get the display name for the object.
     ///
     pub fn display_name(&self) -> Option<String> {

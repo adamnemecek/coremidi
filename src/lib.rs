@@ -176,6 +176,12 @@ pub struct Destination {
     endpoint: Endpoint,
 }
 
+impl Destination {
+    pub fn endpoint(&self) -> &Endpoint {
+        &self.endpoint
+    }
+}
+
 /// A [MIDI source](https://developer.apple.com/reference/coremidi/midiendpointref) owned by an entity.
 ///
 /// A source can be created from an index like this:
@@ -188,6 +194,12 @@ pub struct Destination {
 #[derive(Debug)]
 pub struct Source {
     endpoint: Endpoint,
+}
+
+impl Source {
+    pub fn endpoint(&self) -> &Endpoint {
+        &self.endpoint
+    }
 }
 
 /// A [MIDI virtual source](https://developer.apple.com/reference/coremidi/1495212-midisourcecreate) owned by a client.
@@ -204,6 +216,12 @@ pub struct VirtualSource {
     endpoint: Endpoint,
 }
 
+impl VirtualSource {
+    pub fn endpoint(&self) -> &Endpoint {
+        &self.endpoint
+    }
+}
+
 /// A [MIDI virtual destination](https://developer.apple.com/reference/coremidi/1495347-mididestinationcreate) owned by a client.
 ///
 /// A virtual destination can be created like:
@@ -218,6 +236,12 @@ pub struct VirtualDestination {
     // Note: the order is important here, endpoint needs to be dropped first
     endpoint: Endpoint,
     callback: BoxedCallback<PacketList>,
+}
+
+impl VirtualDestination {
+    pub fn endpoint(&self) -> &Endpoint {
+        &self.endpoint
+    }
 }
 
 /// A [MIDI object](https://developer.apple.com/reference/coremidi/midideviceref).
